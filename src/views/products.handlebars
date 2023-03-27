@@ -1,0 +1,29 @@
+{{#if isValid}}
+  <div>
+    <button id="cart">cart</button>
+    {{#each docs}}
+      <div>
+        <p> {{this.title}}</p>
+        <p> {{this.description}}</p>
+        <p> {{this.price}}</p>
+      </div>
+      <button id="addProd" value={{this._id}}>Add to Cart</button>
+      <a href="/api/products/{{this._id}}">Details</a>
+      <br />
+    {{/each}}
+  </div>
+  <br />
+  <div>
+
+    {{#if hasPrevPage}}
+      <a href={{this.prevLink}}>anterior</a>
+    {{/if}}
+    {{this.page}}
+    {{#if hasNextPage}}
+      <a href={{this.nextLink}}>siguiente</a>
+    {{/if}}
+  </div>
+{{else}}
+  <h1>no hay productos</h1>
+{{/if}}
+<script src="/js/products.js"></script>
