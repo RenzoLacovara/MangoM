@@ -9,6 +9,7 @@ const router = Router();
 router.get("/", async (req, res) => {
   try {
     let page = parseInt(req.query.page);
+
     if (!page) page = 1;
     let result = await pm.getProducts(page);
     result.prevLink = result.hasPrevPage
@@ -18,6 +19,7 @@ router.get("/", async (req, res) => {
       ? `http://localhost:9090/api/products?page=${result.nextPage}`
       : "";
     result.isValid = !(page <= 0 || page > result.totalPages);
+
     res.render("products", result);
   } catch (error) {
     console.error(error);

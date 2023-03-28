@@ -39,6 +39,7 @@ const schema = new mongoose.Schema({
   email: stringTypeSchemaUniqueRequired,
   age: Number,
   password: String,
+  role: String,
 });
 
 const userModel = mongoose.model(collection, schema);

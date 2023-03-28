@@ -14,10 +14,11 @@ form.addEventListener("submit", (e) => {
   })
     .then((result) => {
       if (result.status === 200) {
-        window.location.replace("/api/views/products");
+        window.alert("You have successfully logged in!");
+        window.location.replace("/api/products");
       }
       if (result.status === 401) {
-        window.alert("Credenciales invalidas!");
+        window.alert("Invalid login credentials");
       }
     })
     .catch((error) => {

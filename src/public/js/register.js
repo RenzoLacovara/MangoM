@@ -9,7 +9,7 @@ form.addEventListener("submit", (e) => {
   if (obj.email == "adminCoder@coder.com" && obj.password == "adminCod3r123") {
     obj = { ...obj, role: "admin" };
   } else {
-    obj = { ...obj, role: "usuario" };
+    obj = { ...obj, role: "user" };
   }
   console.log("Objeto formado:");
   console.log(obj);
@@ -21,10 +21,10 @@ form.addEventListener("submit", (e) => {
     },
   }).then((result) => {
     if (result.status === 400) {
-      window.alert("El correo ya existe!");
+      window.alert("Data already exists");
     }
     if (result.status === 201) {
-      window.alert("Creado con exito! Redireccionando al login...");
+      window.alert("you have registered successfully, please log in");
       window.location.replace("/users/login");
     }
   });
