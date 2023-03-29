@@ -9,6 +9,8 @@ import __dirname from "./dirname.js";
 import handlebars from "express-handlebars";
 import { Server } from "socket.io";
 import session from "express-session";
+import passport from "passport";
+import initializePassport from "./config/passport.config.js";
 // import FileStore from "session-file-store";
 import MongoStore from "connect-mongo";
 
@@ -38,6 +40,11 @@ app.use(
   })
 );
 app.use(express.static(__dirname + "/public"));
+
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use("/api/products", productRouter);
 app.use("/api/carts", cartRouter);
 app.use("/users", userRouter);
