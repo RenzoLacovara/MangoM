@@ -4,15 +4,17 @@ import cartRouter from "./routes/cart.router.js";
 import userRouter from "./routes/users.views.router.js";
 import messageRouter from "./routes/view.router.js";
 import sessionsRouter from "./routes/sessions.router.js";
+import githubLoginViewRouter from "./routes/github-login.views.router.js";
 import mongoose from "mongoose";
-import __dirname from "./dirname.js";
+import __dirname from "./utils.js";
 import handlebars from "express-handlebars";
 import { Server } from "socket.io";
+import MongoStore from "connect-mongo";
 import session from "express-session";
 import passport from "passport";
 import initializePassport from "./config/passport.config.js";
+import { generateToken, authToken } from "./utils.js";
 // import FileStore from "session-file-store";
-import MongoStore from "connect-mongo";
 
 const app = express();
 // const fileStorage = FileStore(session);
@@ -50,6 +52,7 @@ app.use("/api/carts", cartRouter);
 app.use("/users", userRouter);
 app.use("/api/sessions", sessionsRouter);
 app.use("/api/messages", messageRouter);
+app.use("/github", githubLoginViewRouter);
 
 const SERVER_PORT = 9090;
 const httpServer = app.listen(SERVER_PORT, () => {

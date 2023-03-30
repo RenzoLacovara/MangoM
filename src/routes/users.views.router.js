@@ -10,7 +10,7 @@ router.get("/register", (req, res) => {
   res.render("register");
 });
 
-router.get("/profile", (req, res) => {
+router.get("/", (req, res) => {
   res.render("profile", {
     user: req.session.user,
   });
@@ -21,5 +21,9 @@ router.get("/logout", (req, res) => {
       res.redirect("/users/login");
     }
   });
+});
+
+router.get("/error", (req, res) => {
+  res.render("error");
 });
 export default router;
