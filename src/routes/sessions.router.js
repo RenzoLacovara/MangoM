@@ -1,6 +1,6 @@
 import { Router } from "express";
 // import userModel from "../Dao/services/mongo/models/user.model.js";
-import { createHash, isValidPassword } from "../utils.js";
+import { createHash, isValidPassword, generateToken } from "../utils.js";
 import passport from "passport";
 const router = Router();
 
@@ -11,8 +11,8 @@ router.get(
 );
 
 router.get(
-  "/githubcallback",
-  passport.authenticate("github", { failureRedirect: "/login" }),
+  "/githubcallbak",
+  passport.authenticate("github", { failureRedirect: "/github/error" }),
   async (req, res) => {
     const user = req.user;
     req.session.user = {
@@ -47,16 +47,17 @@ router.post(
       return res
         .status(401)
         .send({ status: "error", message: "invalid credentials" });
+    // const access_token = generateToken(user);
+    // console.log(token);
     req.session.user = {
       name: `${user.first_name} ${user.last_name}`,
-      age: user.age,
       email: user.email,
+      age: user.age,
     };
-    res.send({
-      status: "success",
-      payload: req.session.user,
-      message: "Succesfully logged in!",
-    });
+    req.session.admin = true;
+    const access_token = generateJWToken(user);
+    console.log(access_token);
+    res.send({ access_token: access_token });
   }
 );
 router.get("faillogin", (req, res) => {

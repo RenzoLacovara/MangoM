@@ -18,13 +18,14 @@ import { generateToken, authToken } from "./utils.js";
 
 const app = express();
 // const fileStorage = FileStore(session);
-const MONGO_URL =
-  "mongodb+srv://reenzo22:Cofi2020@clustermango.rzq3wlu.mongodb.net/ecommerce?retryWrites=true&w=majority";
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.engine("handlebars", handlebars.engine());
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
+app.use(express.static(__dirname + "/public"));
+const MONGO_URL =
+  "mongodb+srv://reenzo22:Cofi2020@clustermango.rzq3wlu.mongodb.net/ecommerce?retryWrites=true&w=majority";
 
 app.use(
   session({
@@ -41,7 +42,6 @@ app.use(
     saveUninitialized: true,
   })
 );
-app.use(express.static(__dirname + "/public"));
 
 initializePassport();
 app.use(passport.initialize());
@@ -57,20 +57,6 @@ app.use("/github", githubLoginViewRouter);
 const SERVER_PORT = 9090;
 const httpServer = app.listen(SERVER_PORT, () => {
   console.log(`server ${SERVER_PORT}`);
-});
-let messages = [];
-const socketServer = new Server(httpServer);
-socketServer.on("connection", (socket) => {
-  console.log("new user connected.");
-  socket.on("message", (data) => {
-    console.log(data);
-    messages.push(data);
-    socketServer.emit("messageLogs", messages);
-  });
-  socket.on("userConnected", (data) => {
-    console.log("User connected: " + data.user);
-    socket.broadcast.emit("userConnected", data.user);
-  });
 });
 const connectMongo = async () => {
   try {
