@@ -1,5 +1,5 @@
 import { Router } from "express";
-import userModel from "../models/user.model.js";
+import userModel from "../dao/services/mongo/models/user.model.js";
 import { isValidPassword } from "../utils.js";
 import { generateJWToken } from "../utils.js";
 
@@ -13,21 +13,17 @@ router.post("/login", async (req, res) => {
     console.log(user);
     if (!user) {
       console.warn("User doesn't exists with username: " + email);
-      return res
-        .status(204)
-        .send({
-          error: "Not found",
-          message: "Usuario no encontrado con username: " + email,
-        });
+      return res.status(204).send({
+        error: "Not found",
+        message: "Usuario no encontrado con username: " + email,
+      });
     }
     if (!isValidPassword(user, password)) {
       console.warn("Invalid credentials for user: " + email);
-      return res
-        .status(401)
-        .send({
-          status: "error",
-          error: "El usuario y la contraseña no coinciden!",
-        });
+      return res.status(401).send({
+        status: "error",
+        error: "El usuario y la contraseña no coinciden!",
+      });
     }
     const tokenUser = {
       name: `${user.first_name} ${user.last_name}`,

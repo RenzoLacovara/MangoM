@@ -5,15 +5,17 @@ import userRouter from "./routes/users.views.router.js";
 import messageRouter from "./routes/view.router.js";
 import sessionsRouter from "./routes/sessions.router.js";
 import githubLoginViewRouter from "./routes/github-login.views.router.js";
+import jwtRouter from "./routes/jwt.router.js";
 import mongoose from "mongoose";
 import __dirname from "./utils.js";
 import handlebars from "express-handlebars";
-import { Server } from "socket.io";
+// import { Server } from "socket.io";
 import MongoStore from "connect-mongo";
 import session from "express-session";
 import passport from "passport";
 import initializePassport from "./config/passport.config.js";
-import { generateToken, authToken } from "./utils.js";
+// import { generateToken, authToken } from "./utils.js";
+import cookieParser from "cookie-parser";
 // import FileStore from "session-file-store";
 
 const app = express();
@@ -24,28 +26,29 @@ app.engine("handlebars", handlebars.engine());
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 app.use(express.static(__dirname + "/public"));
+app.use(cookieParser("blablabla"));
 const MONGO_URL =
   "mongodb+srv://reenzo22:Cofi2020@clustermango.rzq3wlu.mongodb.net/ecommerce?retryWrites=true&w=majority";
 
-app.use(
-  session({
-    store: MongoStore.create({
-      mongoUrl: MONGO_URL,
-      mongoOptions: {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      },
-      ttl: 30,
-    }),
-    secret: "S3cr3t",
-    resave: false,
-    saveUninitialized: true,
-  })
-);
+// app.use(
+//   session({
+//     store: MongoStore.create({
+//       mongoUrl: MONGO_URL,
+//       mongoOptions: {
+//         useNewUrlParser: true,
+//         useUnifiedTopology: true,
+//       },
+//       ttl: 30,
+//     }),
+//     secret: "S3cr3t",
+//     resave: false,
+//     saveUninitialized: true,
+//   })
+// );
 
 initializePassport();
 app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.session());
 
 app.use("/api/products", productRouter);
 app.use("/api/carts", cartRouter);
@@ -53,6 +56,7 @@ app.use("/users", userRouter);
 app.use("/api/sessions", sessionsRouter);
 app.use("/api/messages", messageRouter);
 app.use("/github", githubLoginViewRouter);
+app.use("/api/jwt", jwtRouter);
 
 const SERVER_PORT = 9090;
 const httpServer = app.listen(SERVER_PORT, () => {

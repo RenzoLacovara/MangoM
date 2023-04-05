@@ -15,7 +15,7 @@ form.addEventListener("submit", (e) => {
     if (result.status === 200) {
       result.json().then((json) => {
         console.log(json);
-        localStorage.setItem("authToken", json.jwt);
+        //localStorage.setItem('authToken', json.jwt);
         console.log("Cookies generadas:");
         console.log(document.cookie);
         alert("Login realizado con exito!");

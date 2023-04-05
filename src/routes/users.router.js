@@ -1,78 +1,35 @@
-// import { Router } from "express";
-// import { userModel } from "../Dao/services/mongo/models/user.model.js";
-// import cookieParser from "cookie-parser";
+import { Router } from "express";
+import userModel from "../models/user.model.js";
+import { authToken } from "../utils.js";
 
-// const router = Router();
-// router.use(cookieParser("s3cr3t"));
+const router = Router();
 
-// router.get("/setCookie", (req, res) => {
-//   res
-//     .cookie("oreos", "tremenda cookie", { maxAge: 10000, signed: true })
-//     .send("Cookie");
-// });
-// router.get("/getCookie", (req, res) => {
-//   res.send(req.cookies);
-// });
-// router.get("/deleteCookie", (req, res) => {
-//   res.clearCookie("oreos").send("Cookie borrada");
-// });
-// router.get("/", async (req, res) => {
-//   try {
-//     let users = await userModel.find();
-//     res.send(users);
-//   } catch (err) {
-//     console.log("algo paso:" + err);
-//     res.status(500).send({ err: "no se pudo hacer la cosa", message: err });
-//   }
-// });
-// router.post("/", async (req, res) => {
-//   try {
-//     let { first_name, last_name, email } = req.body;
-//     if (!first_name || !last_name || !email)
-//       return res.status(400).send({ status: "error", message: "error capo" });
-//     let users = await userModel.create({ first_name, last_name, email });
-//     res.status(201).send(users);
-//   } catch (err) {
-//     console.log("algo paso:" + err);
-//     res.status(500).send({ err: "no se pudo hacer la cosa", message: err });
-//   }
-// });
-// router.put("/:uid", async (req, res) => {
-//   let { uid } = req.params;
-//   let userToReplace = req.body;
-//   if (
-//     !userToReplace.first_name ||
-//     !userToReplace.last_name ||
-//     !userToReplace.email
-//   )
-//     return res.send({ status: "error", error: "valores incompletos" });
-//   let result = await userModel.updateOne({ _id: uid }, userToReplace);
-//   res.send({ status: "success", payload: result });
-// });
-// router.delete("/:uid", async (req, res) => {
-//   let { uid } = req.params;
-//   let result = await userModel.deleteOne({ _id: uid });
-//   res.send({ status: "success", payload: result });
-// });
-// router.get("/login", (req, res) => {
-//   res.render("login");
-// });
+router.get("/:userId", authToken, async (req, res) => {
+  const userId = req.params.userId;
+  try {
+    const user = await userModel.findById(userId);
+    if (!user) {
+      res.status(202).json({ message: "User not found with id: " + userId });
+    }
+    res.json(user);
+  } catch (err) {
+    console.error("error consultando el usuario con id: " + userId);
+  }
+});
+export default router;
 
-// router.get("/register", (req, res) => {
-//   res.render("register");
+// router.param("word", async (req, res, next, word) => {
+//     console.log("Buscando nombre de mascota con valor: " + word);
+//     try {
+//         let result = await petsService.findByName(word);
+//         if (!result) {
+//             req.pet = null;
+//         } else {
+//             req.pet = result;
+//         }
+//         next();
+//     } catch (error) {
+//         console.error("Error consultando las mascotas");
+//         res.status(500).send({error: "Error consultando las mascotas", message: error});
+//     }
 // });
-
-// router.get(
-//   "/", //authToken ->Habilitar para JWT
-//   (req, res) => {
-//     res.render("profile", {
-//       user: req.session.user,
-//       //user: req.user ->Habilitar para JWT
-//     });
-//   }
-// );
-
-// router.get("/error", (req, res) => {
-//   res.render("error");
-// });
-// export default router;

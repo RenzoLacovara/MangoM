@@ -3,9 +3,36 @@ import passportLocal from "passport-local";
 import userModel from "../dao/services/mongo/models/user.model.js";
 import { createHash, isValidPassword } from "../utils.js";
 import GitHubStrategy from "passport-github2";
+import jwtStrategy from "passport-jwt";
+import { PRIVATE_KEY } from "../utils.js";
 
+const JwtStrategy = jwtStrategy.Strategy;
+const ExtractJWT = jwtStrategy.ExtractJwt;
 const localStrategy = passportLocal.Strategy;
 const initializePassport = () => {
+  const cookieExtractor = (req) => {
+    let token = null;
+    if (req && req.cookies) {
+      token = req.cookies["jwtCookieToken"];
+    }
+    return token;
+  };
+  passport.use(
+    "jwt",
+    new JwtStrategy(
+      {
+        jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
+        secretOrKey: PRIVATE_KEY,
+      },
+      async (jwt_payload, done) => {
+        try {
+          return done(null, jwt_payload);
+        } catch (e) {
+          return done(e);
+        }
+      }
+    )
+  );
   passport.use(
     "register",
     new localStrategy(
@@ -45,25 +72,25 @@ const initializePassport = () => {
       console.error("Error deserializando el usuario: " + error);
     }
   });
-  passport.use(
-    "login",
-    new localStrategy(
-      { passReqToCallback: true, usernameField: "email" },
-      async (req, username, password, done) => {
-        try {
-          const user = await userModel.findOne({ email: username });
-          if (!user) {
-            console.log("user does not exist");
-            return done(null, false);
-          }
-          if (!isValidPassword(user, password)) return done(null, false);
-          return done(null, user);
-        } catch (err) {
-          return done(err);
-        }
-      }
-    )
-  );
+  // passport.use(
+  //   "login",
+  //   new localStrategy(
+  //     { passReqToCallback: true, usernameField: "email" },
+  //     async (req, username, password, done) => {
+  //       try {
+  //         const user = await userModel.findOne({ email: username });
+  //         if (!user) {
+  //           console.log("user does not exist");
+  //           return done(null, false);
+  //         }
+  //         if (!isValidPassword(user, password)) return done(null, false);
+  //         return done(null, user);
+  //       } catch (err) {
+  //         return done(err);
+  //       }
+  //     }
+  //   )
+  // );
 
   passport.use(
     "github",
