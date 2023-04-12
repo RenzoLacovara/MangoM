@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { PRIVATE_KEY } from "../../utils";
+import PRIVATE_KEY from "../../utils.js";
 
 export default class CustomRouter {
   constructor() {
@@ -61,7 +61,7 @@ export default class CustomRouter {
       res.status(400).send({ status: "error", error });
     next();
   };
-  handlePolicies = (req, res, next) => {
+  handlePolicies = (policies) => (req, res, next) => {
     if (policies[0] === "PUBLIC") return next();
     const authHeader = req.headers.authorization;
     if (!authHeader) {
