@@ -9,15 +9,16 @@ import jwtRouter from "./routes/jwt.router.js";
 import mongoose from "mongoose";
 import __dirname from "./utils.js";
 import handlebars from "express-handlebars";
+import passport from "passport";
+import initializePassport from "./config/passport.config.js";
+import cookieParser from "cookie-parser";
+import PruebaRouter from "./routes/Custom/prueba.router.js";
+import config from "./config/config.js";
 // import { Server } from "socket.io";
 // import MongoStore from "connect-mongo";
 // import session from "express-session";
-import passport from "passport";
-import initializePassport from "./config/passport.config.js";
 // import { generateToken, authToken } from "./utils.js";
-import cookieParser from "cookie-parser";
 // import FileStore from "session-file-store";
-import PruebaRouter from "./routes/Custom/prueba.router.js";
 
 const app = express();
 // const fileStorage = FileStore(session);
@@ -28,8 +29,7 @@ app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 app.use(express.static(__dirname + "/public"));
 app.use(cookieParser("blablabla"));
-const MONGO_URL =
-  "mongodb+srv://reenzo22:Cofi2020@clustermango.rzq3wlu.mongodb.net/ecommerce?retryWrites=true&w=majority";
+const MONGO_URL = config.mongourl;
 
 // app.use(
 //   session({
@@ -61,9 +61,10 @@ app.use("/api/jwt", jwtRouter);
 const pruebaExtendRouter = new PruebaRouter();
 app.use("api/prueba", pruebaExtendRouter.getRouter());
 
-const SERVER_PORT = 9090;
-const httpServer = app.listen(SERVER_PORT, () => {
+const SERVER_PORT = config.port;
+app.listen(SERVER_PORT, () => {
   console.log(`server ${SERVER_PORT}`);
+  console.log(config);
 });
 const connectMongo = async () => {
   try {
