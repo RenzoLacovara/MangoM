@@ -20,6 +20,7 @@ router.get(
   passportCall("jwt"), //-> Usando JWT por Cookie usando customCall
   // authorization("user"),
   (req, res) => {
+    console.log(req.user);
     res.render("profile", {
       user: req.user,
     });

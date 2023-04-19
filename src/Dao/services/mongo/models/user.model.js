@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
   email: stringTypeSchemaUniqueRequired,
   age: Number,
   password: String,
-  role: String,
+  role: { type: String, default: "user", enum: ["admin", "user"] },
 });
 
 const userModel = mongoose.model(userCollection, userSchema);

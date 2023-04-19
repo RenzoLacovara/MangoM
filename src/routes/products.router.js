@@ -2,11 +2,12 @@ import { Router } from "express";
 // import { uploader } from "../dirname.js";
 // import ProductManager from "../Dao/services/filesystem/ProductManager.js";
 import ProductManager from "../Dao/services/mongo/ProductManager.js";
+import { passportCall } from "../utils.js";
 
 const pm = new ProductManager();
 const router = Router();
 
-router.get("/", async (req, res) => {
+router.get("/", passportCall("jwt"), async (req, res) => {
   try {
     let page = parseInt(req.query.page);
 
