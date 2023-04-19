@@ -27,6 +27,7 @@ router.get(
   }
 );
 router.get("/logout", (req, res) => {
+  res.clearCookie("jwtCookieToken");
   res.redirect("/users/login");
   // req.session.destroy((err) => {
   //   if (!err) {
