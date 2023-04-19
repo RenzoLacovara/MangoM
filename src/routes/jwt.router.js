@@ -1,14 +1,15 @@
 import { Router } from "express";
-import userModel from "../dao/services/mongo/models/user.model.js";
-import { isValidPassword } from "../utils.js";
-import { generateJWToken } from "../utils.js";
+// import userModel from "../dao/services/mongo/models/user.model.js";
+import { isValidPassword, generateJWToken, createHash } from "../utils.js";
 
+import UserService from "../Dao/services/mongo/user.service.js";
 const router = Router();
+const userService = new UserService();
 
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await userModel.findOne({ email: email });
+    const user = await userService.findUser(email);
     console.log("Usuario encontrado para login:");
     console.log(user);
     if (!user) {
@@ -45,6 +46,30 @@ router.post("/login", async (req, res) => {
       .status(500)
       .send({ status: "error", error: "Error interno de la applicacion." });
   }
+});
+router.post("/register", async (req, res) => {
+  const { first_name, last_name, email, age, password } = req.body;
+  console.log("Registrando usuario:");
+  console.log(req.body);
+
+  const exists = await userService.findUser(email);
+  if (exists) {
+    return res
+      .status(401)
+      .send({ status: "error", message: "Usuario ya existe." });
+  }
+  const user = {
+    first_name,
+    last_name,
+    email,
+    age,
+    password: createHash(password),
+  };
+  const result = await userService.save(user);
+  res.status(201).send({
+    status: "success",
+    message: "Usuario creado con extito con ID: " + result.id,
+  });
 });
 
 export default router;

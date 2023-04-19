@@ -1,6 +1,7 @@
 import passport from "passport";
 import passportLocal from "passport-local";
-import userModel from "../dao/services/mongo/models/user.model.js";
+// import userModel from "../dao/services/mongo/models/user.model.js";
+import userService from "../Dao/services/mongo/user.service.js";
 import { createHash, isValidPassword } from "../utils.js";
 import GitHubStrategy from "passport-github2";
 import jwtStrategy from "passport-jwt";
@@ -40,7 +41,7 @@ const initializePassport = () => {
       async (req, username, password, done) => {
         const { first_name, last_name, email, age } = req.body;
         try {
-          const exists = await userModel.findOne({ email });
+          const exists = await userService.findUser({ email });
           if (exists) {
             console.log("user already exists");
             return done(null, false);
@@ -52,7 +53,7 @@ const initializePassport = () => {
             age,
             password: createHash(password),
           };
-          const result = await userModel.create(user);
+          const result = await userService.save(user);
           return done(null, result);
         } catch (err) {
           return done("user registration failed" + err);
@@ -104,7 +105,9 @@ const initializePassport = () => {
         console.log("Profile obtenido del usuario: ");
         console.log(profile);
         try {
-          const user = await userModel.findOne({ email: profile._json.email });
+          const user = await userService.findUser({
+            email: profile._json.email,
+          });
           console.log("Usuario encontrado para login:");
           console.log(user);
           if (!user) {
@@ -119,7 +122,7 @@ const initializePassport = () => {
               password: "",
               loggedBy: "GitHub",
             };
-            const result = await userModel.create(newUser);
+            const result = await userService.save(newUser);
             return done(null, result);
           } else {
             //Si entramos por acá significa que el usuario ya existía.
