@@ -1,22 +1,22 @@
-import { Router } from "express";
-import userModel from "../models/user.model.js";
-import { authToken } from "../utils.js";
+import { Router } from 'express'
+import userModel from '../models/user.model.js'
+import { authToken } from '../../config/utility/utils.js'
 
-const router = Router();
+const router = Router()
 
-router.get("/:userId", authToken, async (req, res) => {
-  const userId = req.params.userId;
+router.get('/:userId', authToken, async (req, res) => {
+  const userId = req.params.userId
   try {
-    const user = await userModel.findById(userId);
+    const user = await userModel.findById(userId)
     if (!user) {
-      res.status(202).json({ message: "User not found with id: " + userId });
+      res.status(202).json({ message: 'User not found with id: ' + userId })
     }
-    res.json(user);
+    res.json(user)
   } catch (err) {
-    console.error("error consultando el usuario con id: " + userId);
+    console.error('error consultando el usuario con id: ' + userId)
   }
-});
-export default router;
+})
+export default router
 
 // router.param("word", async (req, res, next, word) => {
 //     console.log("Buscando nombre de mascota con valor: " + word);
