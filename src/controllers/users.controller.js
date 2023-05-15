@@ -88,13 +88,15 @@ export const newPassword = async (req, res) => {
     const { email, password } = req.body
     const user = await userService.findUser(email)
     if (!user) {
-      return res.status(401).json({ error: error, message: "Can't find user" })
+      return res
+        .status(401)
+        .json({ error: 'error', message: "Can't find user" })
     }
     const newUser = {
       email: email,
       password: createHash(password),
     }
-    const result = await userService.update({ email: email }, newUser)
+    await userService.update({ email: email }, newUser)
     res
       .status(200)
       .json({ status: 'success', message: `Success changing password` })

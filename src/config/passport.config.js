@@ -1,6 +1,7 @@
 import passport from 'passport'
 import passportLocal from 'passport-local'
-import userService from '../business/services/user.service.js'
+import userService from '../services/db/dao/user.service.js'
+import userModel from '../services/db/models/user.model.js'
 import GitHubStrategy from 'passport-github2'
 import jwtStrategy from 'passport-jwt'
 import { PRIVATE_KEY } from './utility/utils.js'
