@@ -17,12 +17,11 @@ router.get('/', passportCall('jwt'), (req, res) => {
     user: req.user,
   })
 })
-router.get('/logout', (req, res) => {
-  res.clearCookie('jwtCookieToken')
-  res.redirect('/users/login')
-})
 
 router.get('/error', (req, res) => {
   res.render('error')
+})
+router.get('/forgot-password', (req, res) => {
+  res.render('forgotPassword')
 })
 export default router

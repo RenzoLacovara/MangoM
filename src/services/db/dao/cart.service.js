@@ -1,4 +1,4 @@
-import { cartModel } from '../../persistence/models/cart.model.js'
+import { cartModel } from '../models/cart.model.js'
 
 export default class CartService {
   getCartAndPop = async (id) =>

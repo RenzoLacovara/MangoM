@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { PRIVATE_KEY } from '../../../config/utility/utils.js'
+import { PRIVATE_KEY } from '../../config/utility/utils.js'
 
 export default class CustomRouter {
   constructor() {
