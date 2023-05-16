@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import MessageManager from '../../business/services/MessageManager.js'
+import MessageManager from '../services/db/dao/MessageManager.js'
 
 const router = Router()
 const mm = new MessageManager()

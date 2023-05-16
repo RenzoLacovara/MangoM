@@ -1,4 +1,5 @@
-import ProductService from '../services/db/dao/product.service'
+import ProductService from '../services/db/dao/product.service.js'
+import config from '../config/config.js'
 
 const productService = new ProductService()
 
@@ -8,10 +9,10 @@ export const getProducts = async (req, res) => {
     if (!page) page = 1
     let result = await productService.getProducts(page)
     result.prevLink = result.hasPrevPage
-      ? `http://localhost:9090/api/products?page=${result.prevPage}`
+      ? `http://localhost:${config.port}/api/products?page=${result.prevPage}`
       : ''
     result.nextLink = result.hasNextPage
-      ? `http://localhost:9090/api/products?page=${result.nextPage}`
+      ? `http://localhost:${config.port}/api/products?page=${result.nextPage}`
       : ''
     result.isValid = !(page <= 0 || page > result.totalPages)
     res.render('products', result)

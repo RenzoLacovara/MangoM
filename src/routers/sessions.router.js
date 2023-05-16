@@ -3,7 +3,7 @@ import {
   createHash,
   isValidPassword,
   generateJWToken,
-} from '../../config/utility/utils.js'
+} from '../config/utility/utils.js'
 import passport from 'passport'
 const router = Router()
 

@@ -1,4 +1,4 @@
-import { messageModel } from '../../persistence/models/message.model.js'
+import { messageModel } from '../models/message.model.js'
 
 export default class messageManager {
   getMesagges = async () => messageModel.find()
