@@ -1,0 +1,51 @@
+{"level":"error","message":"High level error, things got bad"}
+info: GET en /api/logger - at 25/5/2023 - 01:26:17
+error: High level error, things got bad
+info: GET en /api/logger - at 25/5/2023 - 01:26:32
+error: High level error, things got bad
+warning: Test of warning log
+info: This is a info log. Your username is
+http: Http Log
+debug: This is a Developer info log
+info: GET en /api/logger - at 25/5/2023 - 01:26:37
+error: High level error, things got bad
+warning: Test of warning log
+info: This is a info log. Your username is
+http: Http Log
+debug: This is a Developer info log
+info: GET en /api/logger - at 25/5/2023 - 01:27:39
+error: High level error, things got bad
+warning: Test of warning log
+info: This is a info log. Your username is
+http: Http Log
+debug: This is a Developer info log
+info: GET en /api/logger - at 25/5/2023 - 01:28:10
+info: GET en /api/logger - at 25/5/2023 - 01:28:14
+info: GET en /api/logger - at 25/5/2023 - 01:28:20
+error: High level error, things got bad
+warning: Test of warning log
+info: This is a info log. Your username is
+http: Http Log
+debug: This is a Developer info log
+error: High level error, things got bad
+warning: Test of warning log
+info: This is a info log. Your username is
+http: Http Log
+debug: This is a Developer info log
+error: High level error, things got bad
+warning: Test of warning log
+info: This is a info log. Your username is
+http: Http Log
+debug: This is a Developer info log
+fatal: Catastrophic error, something went very wrong
+fatal: Catastrophic error, something went very wrong
+error: High level error, things got bad
+fatal: Catastrophic error, something went very wrong
+fatal: Catastrophic error, something went very wrong
+fatal: Catastrophic error, something went very wrong
+fatal: Catastrophic error, something went very wrong
+error: High level error, things got bad
+fatal: Catastrophic error, something went very wrong
+error: High level error, things got bad
+fatal: Jodido
+error: Aspero
