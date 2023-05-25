@@ -16,15 +16,17 @@ const userSchema = new mongoose.Schema({
   password: String,
   role: { type: String, default: 'user', enum: ['admin', 'user'] },
   cart: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'carts',
+    default: [],
+  },
+  orders: {
     type: [
       {
-        cartId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'cart',
-        },
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'tickets',
       },
     ],
-    default: [],
   },
 })
 // userSchema.pre("findOne", function () {

@@ -14,9 +14,10 @@ import cookieParser from 'cookie-parser'
 import PruebaRouter from './routers/Custom/prueba.router.js'
 import config from './config/config.js'
 import MongoSingleton from './config/mongodb-singleton.js'
+import { addLogger } from './config/logger.js'
 
 const app = express()
-
+app.use(addLogger)
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.engine('handlebars', handlebars.engine())

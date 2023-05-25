@@ -15,9 +15,7 @@ program
   .option('-l, --letters [letters...]', 'specify letters')
 program.parse()
 
-console.log('options: ', program.opts())
 console.log('mode option: ', program.opts().mode)
-console.log('remaining args: ', program.args)
 
 process.on('exit', (code) => {
   console.log('exit code: ', code)
