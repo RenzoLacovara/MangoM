@@ -1,5 +1,8 @@
 {
   "type": "module",
+  "scripts": {
+    "start": "node src/app.js"
+  },
   "dependencies": {
     "bcrypt": "^5.1.0",
     "commander": "^10.0.1",
